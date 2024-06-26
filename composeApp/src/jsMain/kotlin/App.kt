@@ -12,6 +12,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
+import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
+import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun App() {
@@ -39,7 +44,8 @@ fun App() {
 private fun Header(logoContent: @Composable () -> Unit, menuContent: @Composable () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 120.dp).padding(top = 48.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         logoContent()
         Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
@@ -50,7 +56,11 @@ private fun Header(logoContent: @Composable () -> Unit, menuContent: @Composable
 
 @Composable
 private fun Logo() {
-    Text(text = "LOGO")
+    Image(
+        painter = painterResource(Res.drawable.logo_gdg_web),
+        contentDescription = "Logo",
+        modifier = Modifier.size(width = 122.dp, height = 50.dp)
+    )
 }
 
 @Composable
