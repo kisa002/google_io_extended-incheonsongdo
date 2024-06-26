@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Session
 import presentation.component.TagChip
+import presentation.support.ResponsiveContent
+import presentation.support.isMobileScreen
+import presentation.support.toResponsive
 import presentation.theme.GoogleRed
 import presentation.theme.Gray500
 import presentation.theme.Gray700
@@ -30,27 +33,47 @@ fun SessionsSection(modifier: Modifier = Modifier, onShowSessionDetail: (Session
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "SESSIONS", color = Gray700, fontSize = 36.sp, fontWeight = FontWeight.SemiBold)
-        FlowRow(
-            modifier = Modifier.padding(top = 40.dp),
-            horizontalArrangement = Arrangement.spacedBy(28.dp),
-            verticalArrangement = Arrangement.spacedBy(32.dp)
-        ) {
-            sessions.forEach { session ->
-                SessionItem(session = session, onClick = onShowSessionDetail)
+        ResponsiveContent(
+            modifier = Modifier.padding(top = 40.dp.toResponsive(30.dp)),
+            desktopContent = {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(28.dp),
+                    verticalArrangement = Arrangement.spacedBy(32.dp)
+                ) {
+                    sessions.forEach { session ->
+                        SessionItem(
+                            session = session,
+                            modifier = Modifier.width(360.dp),
+                            onClick = onShowSessionDetail
+                        )
+                    }
+                }
+            },
+            mobileContent = {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp), maxItemsInEachRow = 2) {
+                    sessions.forEach { session ->
+                        SessionItem(
+                            session = session,
+                            modifier = Modifier.weight(1f),
+                            onClick = onShowSessionDetail
+                        )
+                    }
+                }
             }
-        }
+        )
     }
 }
 
 @Composable
-private fun SessionItem(session: Session, onClick: (Session) -> Unit) {
-    Column(modifier = Modifier.width(360.dp).clip(RoundedCornerShape(12.dp)).clickable { onClick(session) }) {
-        Box(modifier = Modifier.fillMaxWidth().height(200.dp).background(GoogleRed))
+private fun SessionItem(session: Session, modifier: Modifier = Modifier, onClick: (Session) -> Unit) {
+    // toResponsive(260.dp)
+    Column(modifier = modifier.clip(RoundedCornerShape(12.dp)).clickable { onClick(session) }) {
+        Box(modifier = Modifier.fillMaxWidth().height(140.dp).background(GoogleRed))
         Text(
             text = session.title,
             modifier = Modifier.padding(top = 24.dp),
             color = Gray700,
-            fontSize = 24.sp,
+            fontSize = 24.sp.toResponsive(18.sp),
             fontWeight = FontWeight.SemiBold
         )
 //        Text(
@@ -60,7 +83,10 @@ private fun SessionItem(session: Session, onClick: (Session) -> Unit) {
 //            fontSize = 20.sp,
 //            fontWeight = FontWeight.SemiBold
 //        )
-        Row(modifier = Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(
+            modifier = Modifier.padding(top = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp.toResponsive(4.dp))
+        ) {
             TagChip(text = session.room)
             TagChip(text = session.track)
         }
