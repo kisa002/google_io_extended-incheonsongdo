@@ -11,36 +11,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import presentation.support.browserWidthAsState
+import presentation.support.ResponsiveContent
 import presentation.theme.Gray500
 import presentation.theme.Gray700
 
 @Composable
 fun InfoSection(modifier: Modifier = Modifier) {
-    val browserWidth by browserWidthAsState()
-
-    Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            InfoItem(
-                modifier = Modifier.weight(1f),
-                key = "일시/장소",
-                value1 = "2024.07.27.(토)",
-                value2 = "송도 컨벤시아"
-            )
-
-            InfoItem(
-                modifier = Modifier.weight(1f),
-                key = "세션 수",
-                value = "25+"
-            )
-
-            InfoItem(
-                modifier = Modifier.weight(1f),
-                key = "인원",
-                value = "800명"
-            )
+    ResponsiveContent(
+        modifier = modifier,
+        desktopContent = {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                InfoItems(modifier = Modifier.weight(1f))
+            }
+        },
+        mobileContent = {
+            Column(modifier = Modifier.fillMaxWidth()) {
+                InfoItems(modifier = modifier.fillMaxWidth())
+            }
         }
-    }
+    )
+}
+
+@Composable
+private fun InfoItems(modifier: Modifier = Modifier) {
+    InfoItem(
+        modifier = modifier,
+        key = "일시/장소",
+        value1 = "2024.07.27.(토)",
+        value2 = "송도 컨벤시아"
+    )
+
+    InfoItem(
+        modifier = modifier,
+        key = "세션 수",
+        value = "25+"
+    )
+
+    InfoItem(
+        modifier = modifier,
+        key = "인원",
+        value = "800명"
+    )
 }
 
 @Composable
