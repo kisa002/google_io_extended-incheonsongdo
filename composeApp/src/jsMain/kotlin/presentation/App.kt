@@ -14,20 +14,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import data.Session
 import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
 import org.jetbrains.compose.resources.painterResource
 import presentation.component.MenuBar
 import presentation.navigation.AppNavigation
 import presentation.navigation.NavRoutes
-import presentation.support.LocalBrowserSizeManager
+import presentation.screen.home.SessionDetailAlert
 import presentation.support.LocalBrowserSizeManager.LocalBrowserSize
 import presentation.support.LocalBrowserSizeManager.browserSizeAsState
 import presentation.support.ResponsiveContent
 import presentation.support.toResponsive
+import presentation.theme.GdgTheme
 import presentation.theme.Gray600
 import presentation.theme.Gray700
-import presentation.theme.GdgTheme
 import presentation.theme.White
 
 @Composable
@@ -35,6 +36,7 @@ fun App() {
     GdgTheme {
         val navController = rememberNavController()
         val browserSize by browserSizeAsState()
+        var selectedSession by remember { mutableStateOf<Session?>(null) }
 
         CompositionLocalProvider(LocalBrowserSize provides browserSize) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
@@ -82,8 +84,18 @@ fun App() {
                         }
                     )
 
-                    AppNavigation(navController = navController)
+                    AppNavigation(
+                        navController = navController,
+                        onShowSessionDetail = { session: Session ->
+                            selectedSession = session
+                        }
+                    )
                 }
+
+                SessionDetailAlert(
+                    selectedSession = selectedSession,
+                    onDismissRequest = { selectedSession = null }
+                )
             }
         }
     }

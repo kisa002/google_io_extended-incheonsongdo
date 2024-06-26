@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import data.Session
 import presentation.support.toResponsive
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(onShowSessionDetail: (Session) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -20,6 +21,9 @@ fun HomeScreen() {
     ) {
         RsvpSection()
         InfoSection(modifier = Modifier.padding(top = 200.dp.toResponsive(120.dp)))
-        SessionsSection(modifier = Modifier.padding(top = 200.dp.toResponsive(120.dp)))
+        SessionsSection(
+            modifier = Modifier.padding(top = 200.dp.toResponsive(120.dp)),
+            onShowSessionDetail = onShowSessionDetail
+        )
     }
 }
