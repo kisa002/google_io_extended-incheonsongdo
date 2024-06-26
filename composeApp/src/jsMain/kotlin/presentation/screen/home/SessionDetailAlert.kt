@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import data.Session
 import presentation.component.TagChip
+import presentation.support.chooseResponsive
+import presentation.support.toResponsive
 import presentation.theme.Black
 import presentation.theme.GoogleRed
 import presentation.theme.Gray700
@@ -49,7 +51,7 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                         .clip(RoundedCornerShape(12.dp))
                         .background(White)
                         .border(width = 1.dp, color = Black, shape = RoundedCornerShape(12.dp))
-                        .padding(horizontal = 30.dp)
+                        .padding(horizontal = 30.dp.toResponsive(24.dp))
                         .padding(top = 24.dp, bottom = 42.dp)
                 ) {
                     IconButton(
@@ -60,7 +62,8 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                     }
                     Column(modifier = Modifier.padding(top = 16.dp)) {
                         Row(
-                            modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(12.dp))
                                 .border(width = 1.dp, color = Black, shape = RoundedCornerShape(12.dp))
                         ) {
                             Box(
@@ -68,7 +71,15 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                                     .size(width = 200.dp, height = 200.dp)
                                     .background(GoogleRed)
                             )
-                            Column(modifier = Modifier.padding(20.dp)) {
+                            Column(
+                                modifier = Modifier.padding(
+                                    horizontal = chooseResponsive(
+                                        desktop = 20.dp,
+                                        mobile = 16.dp
+                                    ),
+                                    vertical = 20.dp
+                                )
+                            ) {
                                 Text(
                                     text = session.speaker,
                                     color = Black,
