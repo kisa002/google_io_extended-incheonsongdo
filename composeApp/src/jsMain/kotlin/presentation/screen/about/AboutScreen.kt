@@ -7,14 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import presentation.support.toResponsive
 
 @Composable
 fun AboutScreen() {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 80.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 80.dp.toResponsive(60.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HomePageSection()
-        AboutSection(modifier = Modifier.fillMaxWidth().padding(vertical = 80.dp))
+        HomePageSection(modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp.toResponsive(20.dp)))
+        AboutSection(modifier = Modifier.fillMaxWidth().padding(top = 80.dp.toResponsive(120.dp)))
     }
 }

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package presentation.screen.about
 
 import androidx.compose.foundation.BorderStroke
@@ -26,77 +28,150 @@ import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.gdg_logo
 import kotlinx.browser.window
 import org.jetbrains.compose.resources.painterResource
+import presentation.support.ResponsiveContent
+import presentation.support.toResponsive
 import presentation.theme.Black
 import presentation.theme.GoogleBlue
 import presentation.theme.Gray400
 
 @Composable
-fun HomePageSection() {
-    val gradient = Brush.horizontalGradient(
-        listOf(
-            Color(0xFF34A853),
-            Color(0xFF4285F4),
-            Color(0xFF9F6CD4),
-            Color(0xFFDE494E),
-            Color(0xFFEA4335),
-            Color(0xFFF46831),
-            Color(0xFFFFCB32),
+fun HomePageSection(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        val gradient = Brush.horizontalGradient(
+            listOf(
+                Color(0xFF34A853),
+                Color(0xFF4285F4),
+                Color(0xFF9F6CD4),
+                Color(0xFFDE494E),
+                Color(0xFFEA4335),
+                Color(0xFFF46831),
+                Color(0xFFFFCB32),
+            )
         )
-    )
 
-    Text(
-        text = "Developers Coding For A Better World !",
-        style = TextStyle(fontSize = 32.sp, fontWeight = FontWeight.Bold, brush = gradient)
-    )
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(32.dp)) {
-        CompositionLocalProvider(
-            LocalTextStyle provides LocalTextStyle.current.copy(
-                color = Black,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Center
-            )
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                        append("GDG(Google Developer Groups)")
-                    }
-                    appendLine("란")
-                    appendLine(
-                        """
-                        Google의 기술을 바탕으로 자율적으로 활동하는 개발자 커뮤니티입니다.
-                        현재 140개 국가에서 1, 000개 이상의 챕터가 활동하고 있습니다.
-                        국내에서는 GDG 서울, 판교, 인천, 송도, 대전, 부산, 제주 챕터가 존재합니다.
-                    """.trimIndent()
+        ResponsiveContent(
+            desktopContent = {
+                Text(
+                    text = "Developers Coding For A Better World !",
+                    style = TextStyle(
+                        brush = gradient,
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
-                    appendLine()
-                    appendLine(
-                        """
-                            GDG 인천/송도는 각각 인천과 송도 지역을 중심으로 활동하는 GDG 챕터입니다.
-                                현재까지 Google I/O Extended, DevFest, Build with AI 등의 다양한 행사를 주최하고 있으며,
-                                오픈소스 스터디를 지속적으로 진행하고 있습니다.
-                                
-                                흥미진진한 프로젝트를 만들고, 열정으로 IT 기술에 대한 경험을 공유하며,
-                                IT 생태계의 발전 및 개발자의 학습과 네트워킹을 촉진하는 것이 목표입니다.
-                        """.trimIndent()
+                )
+            },
+            mobileContent = {
+                Text(
+                    text = "Developers\nCoding For\nA Better World !",
+                    style = TextStyle(
+                        brush = gradient,
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
                     )
-                },
-                modifier = Modifier.padding(top = 40.dp)
-            )
-            Text(
-                text = "면책 조항: GDG 인천/송도는 독립적으로 운영되는 커뮤니티로, GDG 인천/송도의 활동 및 입장은 Google과 무관합니다.",
-                color = Gray400,
-                fontSize = 14.sp
-            )
-        }
-        Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
-            HomePageButton(text = "인천") {
-                window.open("https://gdg.community.dev/gdg-incheon/")
+                )
             }
-            HomePageButton(text = "송도") {
-                window.open("https://gdg.community.dev/gdg-songdo/")
+        )
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(32.dp.toResponsive(48.dp))
+        ) {
+            CompositionLocalProvider(
+                LocalTextStyle provides LocalTextStyle.current.copy(
+                    color = Black,
+                    fontSize = 18.sp.toResponsive(16.sp),
+                    fontWeight = FontWeight.Normal,
+                    textAlign = TextAlign.Center
+                )
+            ) {
+                ResponsiveContent(
+                    desktopContent = {
+                        Text(
+                            text = buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                                    append("GDG(Google Developer Groups)")
+                                }
+                                appendLine("란")
+                                appendLine(
+                                    """
+                                    Google의 기술을 바탕으로 자율적으로 활동하는 개발자 커뮤니티입니다.
+                                    현재 140개 국가에서 1, 000개 이상의 챕터가 활동하고 있습니다.
+                                    국내에서는 GDG 서울, 판교, 인천, 송도, 대전, 부산, 제주 챕터가 존재합니다.
+                                """.trimIndent()
+                                )
+                                appendLine()
+                                appendLine(
+                                    """
+                                    GDG 인천/송도는 각각 인천과 송도 지역을 중심으로 활동하는 GDG 챕터입니다.
+                                    현재까지 Google I/O Extended, DevFest, Build with AI 등의 다양한 행사를 주최하고 있으며,
+                                    오픈소스 스터디를 지속적으로 진행하고 있습니다.
+                                    
+                                    흥미진진한 프로젝트를 만들고, 열정으로 IT 기술에 대한 경험을 공유하며,
+                                    IT 생태계의 발전 및 개발자의 학습과 네트워킹을 촉진하는 것이 목표입니다.
+                                """.trimIndent()
+                                )
+                            },
+                            modifier = Modifier.padding(top = 40.dp)
+                        )
+                    },
+                    mobileContent = {
+                        Text(
+                            text = buildAnnotatedString {
+                                withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
+                                    append("GDG(Google Developer Groups)")
+                                }
+                                appendLine("란")
+                                appendLine(
+                                    """
+                                    Google의 기술을 바탕으로 자율적으로 활동하는 
+                                    개발자 커뮤니티입니다. 
+                                    현재 140개 국가에서 
+                                    1,000개 이상의 챕터가 활동하고 있습니다. 
+                                    국내에서는 GDG 서울, 판교, 인천, 송도, 
+                                    대전, 부산, 제주 챕터가 존재합니다.
+                                """.trimIndent()
+                                )
+                                appendLine()
+                                appendLine(
+                                    """
+                                    GDG 인천/송도는 각각 인천과 송도 지역을 
+                                    중심으로 활동하는 GDG 챕터입니다. 
+                                    현재까지 Google I/O Extended, DevFest, 
+                                    Build with AI 등의 다양한 행사를 주최하고 있으며,     
+                                    오픈소스 스터디를 지속적으로 진행하고 있습니다. 
+                                    
+                                    흥미진진한 프로젝트를 만들고, 
+                                    열정으로 IT 기술에 대한 경험을 공유하며, 
+                                    IT 생태계의 발전 및 개발자의 학습과 
+                                    네트워킹을 촉진하는 것이 목표입니다.
+                                """.trimIndent()
+                                )
+                            },
+                            modifier = Modifier.padding(top = 40.dp)
+                        )
+                    }
+                )
+                Text(
+                    text = "면책 조항: GDG 인천/송도는 독립적으로 운영되는 커뮤니티로, GDG 인천/송도의 활동 및 입장은 Google과 무관합니다.",
+                    color = Gray400,
+                    fontSize = 14.sp
+                )
+            }
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(24.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                HomePageButton(text = "인천") {
+                    window.open("https://gdg.community.dev/gdg-incheon/")
+                }
+                HomePageButton(text = "송도") {
+                    window.open("https://gdg.community.dev/gdg-songdo/")
+                }
             }
         }
     }
