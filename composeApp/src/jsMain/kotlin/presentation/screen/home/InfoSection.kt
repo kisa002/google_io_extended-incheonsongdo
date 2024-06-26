@@ -5,7 +5,6 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +43,7 @@ private fun InfoItems(modifier: Modifier = Modifier) {
     InfoItem(
         modifier = modifier,
         key = "세션 수",
-        value = "25+"
+        value = "30+"
     )
 
     InfoItem(

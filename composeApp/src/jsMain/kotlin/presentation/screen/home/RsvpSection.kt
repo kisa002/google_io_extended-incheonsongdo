@@ -57,7 +57,7 @@ fun RsvpSection() {
                             """.trimIndent()
                         )
                         withStyle(style = SpanStyle(fontWeight = FontWeight.SemiBold)) {
-                            append("폭넓은 주제의 General 세션")
+                            append(" 폭넓은 주제의 General 세션")
                         }
                         append("을 준비하고 있으니 많은 참여 부탁드려요!")
                     },
@@ -81,7 +81,7 @@ fun RsvpSection() {
                     """.trimIndent()
                         )
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("폭넓은 주제의 General 세션")
+                            append(" 폭넓은 주제의 General 세션")
                         }
                         append("을 준비하고 있으니\n많은 참여 부탁드려요!")
                     },

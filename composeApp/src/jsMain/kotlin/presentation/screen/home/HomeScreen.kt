@@ -20,5 +20,6 @@ fun HomeScreen() {
     ) {
         RsvpSection()
         InfoSection(modifier = Modifier.padding(top = 200.dp.toResponsive(120.dp)))
+        SessionsSection(modifier = Modifier.padding(top = 200.dp.toResponsive(120.dp)))
     }
 }
