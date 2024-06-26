@@ -1,5 +1,7 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
+package presentation
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -13,14 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
-import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.vectorResource
+import presentation.navigation.AppNavigation
+import presentation.navigation.NavRoutes
 
 @Composable
 fun App() {
