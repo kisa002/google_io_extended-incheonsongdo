@@ -15,5 +15,6 @@ fun AboutScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         HomePageSection()
+        AboutSection(modifier = Modifier.fillMaxWidth().padding(vertical = 80.dp))
     }
 }
