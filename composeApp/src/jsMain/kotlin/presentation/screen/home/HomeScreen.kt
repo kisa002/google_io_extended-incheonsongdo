@@ -15,5 +15,6 @@ fun HomeScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RsvpSection()
+        InfoSection(modifier = Modifier.padding(top = 107.dp))
     }
 }
