@@ -30,39 +30,42 @@ fun App() {
     GdgTheme {
         val navController = rememberNavController()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)
-                .verticalScroll(state = rememberScrollState())
-        ) {
-            val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
-                val listener = NavController.OnDestinationChangedListener { _, _, _ ->
-                    value = navController.currentDestination?.route ?: NavRoutes.Home.route
-                }
-                navController.addOnDestinationChangedListener(listener)
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+            Column(
+                modifier = Modifier
+                    .widthIn(max = 1440.dp)
+                    .fillMaxSize()
+                    .background(Color.White)
+                    .verticalScroll(state = rememberScrollState())
+            ) {
+                val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
+                    val listener = NavController.OnDestinationChangedListener { _, _, _ ->
+                        value = navController.currentDestination?.route ?: NavRoutes.Home.route
+                    }
+                    navController.addOnDestinationChangedListener(listener)
 
-                awaitDispose {
-                    navController.removeOnDestinationChangedListener(listener)
+                    awaitDispose {
+                        navController.removeOnDestinationChangedListener(listener)
+                    }
                 }
+
+                Header(
+                    logoContent = { Logo() },
+                    menuContent = {
+                        Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
+                            navController.navigate(NavRoutes.Home.route)
+                        }
+                        Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                            navController.navigate(NavRoutes.About.route)
+                        }
+                        Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
+                            navController.navigate(NavRoutes.Sessions.route)
+                        }
+                    }
+                )
+
+                AppNavigation(navController = navController)
             }
-
-            Header(
-                logoContent = { Logo() },
-                menuContent = {
-                    Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
-                        navController.navigate(NavRoutes.Home.route)
-                    }
-                    Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
-                        navController.navigate(NavRoutes.About.route)
-                    }
-                    Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
-                        navController.navigate(NavRoutes.Sessions.route)
-                    }
-                }
-            )
-
-            AppNavigation(navController = navController)
         }
     }
 }

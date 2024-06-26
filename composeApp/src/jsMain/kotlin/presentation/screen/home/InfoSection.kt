@@ -5,28 +5,37 @@ import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import presentation.support.browserWidthAsState
 import presentation.theme.Gray500
 import presentation.theme.Gray700
 
 @Composable
 fun InfoSection(modifier: Modifier = Modifier) {
+    val browserWidth by browserWidthAsState()
+
     Box(modifier = modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        Row(horizontalArrangement = Arrangement.spacedBy(190.dp)) {
+        Row(modifier = Modifier.fillMaxWidth()) {
             InfoItem(
+                modifier = Modifier.weight(1f),
                 key = "일시/장소",
                 value1 = "2024.07.27.(토)",
                 value2 = "송도 컨벤시아"
             )
+
             InfoItem(
+                modifier = Modifier.weight(1f),
                 key = "세션 수",
                 value = "25+"
             )
+
             InfoItem(
+                modifier = Modifier.weight(1f),
                 key = "인원",
                 value = "800명"
             )
@@ -35,8 +44,8 @@ fun InfoSection(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun InfoItem(key: String, value: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+private fun InfoItem(modifier: Modifier = Modifier, key: String, value: String) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = key, color = Gray500, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
         Text(
             text = value,
@@ -49,8 +58,8 @@ private fun InfoItem(key: String, value: String) {
 }
 
 @Composable
-private fun InfoItem(key: String, value1: String, value2: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+private fun InfoItem(modifier: Modifier = Modifier, key: String, value1: String, value2: String) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = key, color = Gray500, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
         CompositionLocalProvider(
             LocalTextStyle provides LocalTextStyle.current.copy(
