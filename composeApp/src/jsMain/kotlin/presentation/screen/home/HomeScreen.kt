@@ -12,7 +12,10 @@ import presentation.support.toResponsive
 @Composable
 fun HomeScreen() {
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 80.dp, bottom = 178.dp.toResponsive(98.dp)),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 80.dp, bottom = 178.dp.toResponsive(98.dp))
+            .padding(horizontal = 0.dp.toResponsive(20.dp)),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         RsvpSection()

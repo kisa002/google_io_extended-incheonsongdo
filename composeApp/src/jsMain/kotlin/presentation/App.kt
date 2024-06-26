@@ -4,15 +4,12 @@ package presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -23,8 +20,10 @@ import org.jetbrains.compose.resources.painterResource
 import presentation.component.MenuBar
 import presentation.navigation.AppNavigation
 import presentation.navigation.NavRoutes
+import presentation.support.LocalBrowserSizeManager
+import presentation.support.LocalBrowserSizeManager.LocalBrowserSize
+import presentation.support.LocalBrowserSizeManager.browserSizeAsState
 import presentation.support.ResponsiveContent
-import presentation.support.isMobileScreen
 import presentation.support.toResponsive
 import presentation.theme.Gray600
 import presentation.theme.Gray700
@@ -35,53 +34,56 @@ import presentation.theme.White
 fun App() {
     GdgTheme {
         val navController = rememberNavController()
+        val browserSize by browserSizeAsState()
 
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
-            Column(
-                modifier = Modifier
-                    .widthIn(max = 1440.dp)
-                    .fillMaxSize()
-                    .background(White)
-                    .verticalScroll(state = rememberScrollState())
-            ) {
-                val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
-                    val listener = NavController.OnDestinationChangedListener { _, _, _ ->
-                        value = navController.currentDestination?.route ?: NavRoutes.Home.route
+        CompositionLocalProvider(LocalBrowserSize provides browserSize) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
+                Column(
+                    modifier = Modifier
+                        .widthIn(max = 1440.dp)
+                        .fillMaxSize()
+                        .background(White)
+                        .verticalScroll(state = rememberScrollState())
+                ) {
+                    val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
+                        val listener = NavController.OnDestinationChangedListener { _, _, _ ->
+                            value = navController.currentDestination?.route ?: NavRoutes.Home.route
+                        }
+                        navController.addOnDestinationChangedListener(listener)
+
+                        awaitDispose {
+                            navController.removeOnDestinationChangedListener(listener)
+                        }
                     }
-                    navController.addOnDestinationChangedListener(listener)
 
-                    awaitDispose {
-                        navController.removeOnDestinationChangedListener(listener)
-                    }
-                }
-
-                Header(
-                    logoContent = { Logo() },
-                    menuContent = {
-                        ResponsiveContent(
-                            desktopContent = {
-                                Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
-                                    Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
-                                        navController.navigate(NavRoutes.Home.route)
+                    Header(
+                        logoContent = { Logo() },
+                        menuContent = {
+                            ResponsiveContent(
+                                desktopContent = {
+                                    Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
+                                        Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
+                                            navController.navigate(NavRoutes.Home.route)
+                                        }
+                                        Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                                            navController.navigate(NavRoutes.About.route)
+                                        }
+//                                        Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
+//                                            navController.navigate(NavRoutes.Sessions.route)
+//                                        }
                                     }
-                                    Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                                },
+                                mobileContent = {
+                                    MenuBar {
                                         navController.navigate(NavRoutes.About.route)
                                     }
-                                    Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
-                                        navController.navigate(NavRoutes.Sessions.route)
-                                    }
                                 }
-                            },
-                            mobileContent = {
-                                MenuBar {
-                                    navController.navigate(NavRoutes.About.route)
-                                }
-                            }
-                        )
-                    }
-                )
+                            )
+                        }
+                    )
 
-                AppNavigation(navController = navController)
+                    AppNavigation(navController = navController)
+                }
             }
         }
     }
@@ -107,7 +109,7 @@ private fun Logo() {
     Image(
         painter = painterResource(Res.drawable.logo_gdg_web),
         contentDescription = "GDG Logo",
-        modifier = Modifier.size(width = 122.dp, height = 50.dp)
+        modifier = Modifier.size(width = 122.dp.toResponsive(100.dp), height = 50.dp.toResponsive(40.dp))
     )
 }
 
