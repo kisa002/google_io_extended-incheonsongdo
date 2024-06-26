@@ -4,7 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -12,6 +12,10 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
 import org.jetbrains.compose.resources.imageResource
@@ -21,21 +25,41 @@ import org.jetbrains.compose.resources.vectorResource
 @Composable
 fun App() {
     MaterialTheme {
-        Column(modifier = Modifier.fillMaxSize().background(Color.White).verticalScroll(state = rememberScrollState())) {
+        val navController = rememberNavController()
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .verticalScroll(state = rememberScrollState())
+        ) {
+            val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
+                val listener = NavController.OnDestinationChangedListener { _, _, _ ->
+                    value = navController.currentDestination?.route ?: NavRoutes.Home.route
+                }
+                navController.addOnDestinationChangedListener(listener)
+
+                awaitDispose {
+                    navController.removeOnDestinationChangedListener(listener)
+                }
+            }
+
             Header(
                 logoContent = { Logo() },
                 menuContent = {
-                    Menu(text = "HOME", selected = true) {
-                        // TODO
+                    Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
+                        navController.navigate(NavRoutes.Home.route)
                     }
-                    Menu(text = "ABOUT", selected = false) {
-                        // TODO
+                    Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                        navController.navigate(NavRoutes.About.route)
                     }
-                    Menu(text = "SESSIONS", selected = false) {
-                        // TODO
+                    Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
+                        navController.navigate(NavRoutes.Sessions.route)
                     }
                 }
             )
+
+            AppNavigation(navController = navController)
         }
     }
 }
