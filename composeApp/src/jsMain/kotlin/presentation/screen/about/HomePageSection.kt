@@ -64,19 +64,26 @@ fun HomePageSection() {
                         append("GDG(Google Developer Groups)")
                     }
                     appendLine("란")
-                    appendLine("Google의 기술을 바탕으로 자율적으로 활동하는 개발자 커뮤니티입니다.")
-                    appendLine("현재 140개 국가에서 1, 000개 이상의 챕터가 활동하고 있습니다.")
-                    appendLine("국내에서는 GDG 서울, 판교, 인천, 송도, 대전, 부산, 제주 챕터가 존재합니다.")
+                    appendLine(
+                        """
+                        Google의 기술을 바탕으로 자율적으로 활동하는 개발자 커뮤니티입니다.
+                        현재 140개 국가에서 1, 000개 이상의 챕터가 활동하고 있습니다.
+                        국내에서는 GDG 서울, 판교, 인천, 송도, 대전, 부산, 제주 챕터가 존재합니다.
+                    """.trimIndent()
+                    )
+                    appendLine()
+                    appendLine(
+                        """
+                            GDG 인천/송도는 각각 인천과 송도 지역을 중심으로 활동하는 GDG 챕터입니다.
+                                현재까지 Google I/O Extended, DevFest, Build with AI 등의 다양한 행사를 주최하고 있으며,
+                                오픈소스 스터디를 지속적으로 진행하고 있습니다.
+                                
+                                흥미진진한 프로젝트를 만들고, 열정으로 IT 기술에 대한 경험을 공유하며,
+                                IT 생태계의 발전 및 개발자의 학습과 네트워킹을 촉진하는 것이 목표입니다.
+                        """.trimIndent()
+                    )
                 },
                 modifier = Modifier.padding(top = 40.dp)
-            )
-            Text(
-                text = "GDG 인천/송도는 각각 인천과 송도 지역을 중심으로 활동하는 GDG 챕터입니다. \n" +
-                        "현재까지 Google I/O Extended, DevFest, Build with AI 등의 다양한 행사를 주최하고 있으며, \n" +
-                        "오픈소스 스터디를 지속적으로 진행하고 있습니다. \n" +
-                        "\n" +
-                        "흥미진진한 프로젝트를 만들고, 열정으로 IT 기술에 대한 경험을 공유하며, \n" +
-                        "IT 생태계의 발전 및 개발자의 학습과 네트워킹을 촉진하는 것이 목표입니다."
             )
             Text(
                 text = "면책 조항: GDG 인천/송도는 독립적으로 운영되는 커뮤니티로, GDG 인천/송도의 활동 및 입장은 Google과 무관합니다.",
