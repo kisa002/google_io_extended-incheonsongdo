@@ -21,10 +21,13 @@ import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_
 import org.jetbrains.compose.resources.painterResource
 import presentation.navigation.AppNavigation
 import presentation.navigation.NavRoutes
+import presentation.theme.Gray600
+import presentation.theme.Gray700
+import presentation.theme.GdgTheme
 
 @Composable
 fun App() {
-    MaterialTheme {
+    GdgTheme {
         val navController = rememberNavController()
 
         Column(
@@ -82,14 +85,14 @@ private fun Header(logoContent: @Composable () -> Unit, menuContent: @Composable
 private fun Logo() {
     Image(
         painter = painterResource(Res.drawable.logo_gdg_web),
-        contentDescription = "Logo",
+        contentDescription = "GDG Logo",
         modifier = Modifier.size(width = 122.dp, height = 50.dp)
     )
 }
 
 @Composable
 private fun Menu(text: String, selected: Boolean, onClick: () -> Unit) {
-    val color = if (selected) Color(0xFF374151) else Color(0xFF4B5563)
+    val color = if (selected) Gray700 else Gray600
 
     Column(modifier = Modifier.onClick(onClick = onClick)) {
         Text(
