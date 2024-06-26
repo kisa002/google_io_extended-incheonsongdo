@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,11 +20,16 @@ import androidx.navigation.compose.rememberNavController
 import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
 import org.jetbrains.compose.resources.painterResource
+import presentation.component.MenuBar
 import presentation.navigation.AppNavigation
 import presentation.navigation.NavRoutes
+import presentation.support.ResponsiveContent
+import presentation.support.isMobileScreen
+import presentation.support.toResponsive
 import presentation.theme.Gray600
 import presentation.theme.Gray700
 import presentation.theme.GdgTheme
+import presentation.theme.White
 
 @Composable
 fun App() {
@@ -35,7 +41,7 @@ fun App() {
                 modifier = Modifier
                     .widthIn(max = 1440.dp)
                     .fillMaxSize()
-                    .background(Color.White)
+                    .background(White)
                     .verticalScroll(state = rememberScrollState())
             ) {
                 val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
@@ -52,15 +58,26 @@ fun App() {
                 Header(
                     logoContent = { Logo() },
                     menuContent = {
-                        Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
-                            navController.navigate(NavRoutes.Home.route)
-                        }
-                        Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
-                            navController.navigate(NavRoutes.About.route)
-                        }
-                        Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
-                            navController.navigate(NavRoutes.Sessions.route)
-                        }
+                        ResponsiveContent(
+                            desktopContent = {
+                                Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
+                                    Menu(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
+                                        navController.navigate(NavRoutes.Home.route)
+                                    }
+                                    Menu(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                                        navController.navigate(NavRoutes.About.route)
+                                    }
+                                    Menu(text = "SESSIONS", selected = currentRoute == NavRoutes.Sessions.route) {
+                                        navController.navigate(NavRoutes.Sessions.route)
+                                    }
+                                }
+                            },
+                            mobileContent = {
+                                MenuBar {
+                                    navController.navigate(NavRoutes.About.route)
+                                }
+                            }
+                        )
                     }
                 )
 
@@ -73,14 +90,15 @@ fun App() {
 @Composable
 private fun Header(logoContent: @Composable () -> Unit, menuContent: @Composable () -> Unit) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 120.dp).padding(top = 48.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 120.dp.toResponsive(20.dp))
+            .padding(top = 48.dp.toResponsive(30.dp)),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         logoContent()
-        Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
-            menuContent()
-        }
+        menuContent()
     }
 }
 
