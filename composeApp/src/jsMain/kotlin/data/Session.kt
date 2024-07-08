@@ -1,10 +1,13 @@
 package data
 
 data class Session(
-    val room: String,
-    val track: String,
-    val time: String,
     val speaker: String,
+    val room: String,
+    val begin: String,
+    val end: String,
+    val track: String,
+    val title: String,
+    val etc: String,
     val career: String,
-    val title: String
+    val image: String
 )

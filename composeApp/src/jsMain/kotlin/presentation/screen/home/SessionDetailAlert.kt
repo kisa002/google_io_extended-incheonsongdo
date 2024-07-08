@@ -24,12 +24,12 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import data.Session
 import presentation.component.TagChip
 import presentation.support.chooseResponsive
 import presentation.support.toResponsive
 import presentation.theme.Black
-import presentation.theme.GoogleRed
 import presentation.theme.Gray700
 import presentation.theme.White
 
@@ -66,10 +66,10 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                                 .clip(RoundedCornerShape(12.dp))
                                 .border(width = 1.dp, color = Black, shape = RoundedCornerShape(12.dp))
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(width = 200.dp, height = 200.dp)
-                                    .background(GoogleRed)
+                            AsyncImage(
+                                model = session.image,
+                                contentDescription = "Speaker Profile Image",
+                                modifier = Modifier.size(width = 200.dp, height = 200.dp)
                             )
                             Column(
                                 modifier = Modifier.padding(
@@ -94,7 +94,7 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                                 ) {
                                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                         Text(text = session.career)
-                                        Text(text = session.time)
+                                        Text(text = "${session.begin} - ${session.end}")
                                         Text(text = session.room)
                                     }
                                 }
