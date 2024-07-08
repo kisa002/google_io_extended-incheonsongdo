@@ -26,10 +26,13 @@ kotlin {
             implementation(compose.html.core)
 
             implementation(libs.navigation)
+
             implementation(libs.coil.compose.core)
             implementation(libs.coil.compose)
             implementation(libs.coil.mp)
             implementation(libs.coil.network.ktor)
+
+            implementation(libs.ktor.client.core)
         }
     }
 }
