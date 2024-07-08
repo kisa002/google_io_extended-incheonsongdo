@@ -43,22 +43,22 @@ fun DrawerLayout(
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(0.55f)
+                    .fillMaxWidth(0.6f)
                     .fillMaxHeight()
                     .clip(shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
                     .background(color = White, shape = RoundedCornerShape(topStart = 12.dp, bottomStart = 12.dp))
                     .padding(horizontal = 20.dp, vertical = 32.dp),
             ) {
                 Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "GDG Incheon / Songdo", color = Gray600, fontSize = 16.sp)
+                    Text(text = "GDG Incheon / Songdo", color = Gray600, fontSize = 14.sp)
                     Text(
                         text = "Google I/O Extended 2024",
                         color = Gray700,
-                        fontSize = 20.sp,
+                        fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
                 Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
                     MenuItem(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
