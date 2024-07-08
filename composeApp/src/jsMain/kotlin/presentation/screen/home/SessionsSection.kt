@@ -7,9 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +52,7 @@ fun SessionsSection(modifier: Modifier = Modifier, onShowSessionDetail: (Session
                 }
         }
     }
+    var maxSessionHeight by remember { mutableStateOf(0.dp) }
 
     Column(
         modifier = modifier,
@@ -64,8 +63,8 @@ fun SessionsSection(modifier: Modifier = Modifier, onShowSessionDetail: (Session
             modifier = Modifier.padding(top = 40.dp.toResponsive(30.dp)),
             desktopContent = {
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(28.dp),
-                    verticalArrangement = Arrangement.spacedBy(32.dp)
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     sessions.forEach { session ->
                         SessionItem(
@@ -78,8 +77,8 @@ fun SessionsSection(modifier: Modifier = Modifier, onShowSessionDetail: (Session
             },
             mobileContent = {
                 FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
                     maxItemsInEachRow = 2
                 ) {
                     sessions.forEach { session ->
@@ -97,7 +96,12 @@ fun SessionsSection(modifier: Modifier = Modifier, onShowSessionDetail: (Session
 
 @Composable
 private fun SessionItem(session: Session, modifier: Modifier = Modifier, onClick: (Session) -> Unit) {
-    Column(modifier = modifier.clip(RoundedCornerShape(12.dp)).clickable { onClick(session) }) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(12.dp))
+            .clickable { onClick(session) }
+            .padding(8.dp)
+    ) {
         AsyncImage(
             model = session.image,
             contentDescription = "Speaker Profile Image",
@@ -113,7 +117,7 @@ private fun SessionItem(session: Session, modifier: Modifier = Modifier, onClick
             text = session.title,
             modifier = Modifier.padding(top = 24.dp),
             color = Gray700,
-            fontSize = 24.sp.toResponsive(18.sp),
+            fontSize = 20.sp.toResponsive(18.sp),
             fontWeight = FontWeight.SemiBold
         )
         Row(

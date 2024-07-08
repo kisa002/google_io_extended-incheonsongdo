@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +70,8 @@ fun SessionDetailAlert(selectedSession: Session?, onDismissRequest: () -> Unit) 
                             AsyncImage(
                                 model = session.image,
                                 contentDescription = "Speaker Profile Image",
-                                modifier = Modifier.size(width = 200.dp, height = 200.dp)
+                                modifier = Modifier.size(width = 200.dp, height = 200.dp),
+                                contentScale = ContentScale.FillBounds
                             )
                             Column(
                                 modifier = Modifier.padding(
