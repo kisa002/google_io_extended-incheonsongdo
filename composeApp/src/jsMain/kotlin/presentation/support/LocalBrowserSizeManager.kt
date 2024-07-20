@@ -16,7 +16,6 @@ object LocalBrowserSizeManager {
     @Composable
     fun browserSizeAsState(): State<IntSize> {
         val browserWidth = produceState(getBrowserSize()) {
-            console.log("addEventListener: resize")
             val resizeEventListener: (Event) -> Unit = {
                 value = getBrowserSize()
             }

@@ -8,11 +8,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import data.Session
 import google_io_extended_incheonsongdo.composeapp.generated.resources.Res
 import google_io_extended_incheonsongdo.composeapp.generated.resources.logo_gdg_web
+import kotlinx.coroutines.flow.map
 import org.jetbrains.compose.resources.painterResource
 import presentation.component.DrawerLayout
 import presentation.component.MenuBar
@@ -36,16 +36,9 @@ fun App() {
         var selectedSession by remember { mutableStateOf<Session?>(null) }
 
         CompositionLocalProvider(LocalBrowserSize provides browserSize) {
-            val currentRoute by produceState(initialValue = NavRoutes.Home.route) {
-                val listener = NavController.OnDestinationChangedListener { _, _, _ ->
-                    value = navController.currentDestination?.route ?: NavRoutes.Home.route
-                }
-                navController.addOnDestinationChangedListener(listener)
-
-                awaitDispose {
-                    navController.removeOnDestinationChangedListener(listener)
-                }
-            }
+            val currentRoute by navController.currentBackStackEntryFlow.map {
+                it.destination.route ?: NavRoutes.Home.route
+            }.collectAsState(NavRoutes.Home.route)
 
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
                 Column(
@@ -61,10 +54,16 @@ fun App() {
                             ResponsiveContent(
                                 desktopContent = {
                                     Row(horizontalArrangement = Arrangement.spacedBy(44.dp)) {
-                                        MenuItem(text = "HOME", selected = currentRoute == NavRoutes.Home.route) {
+                                        MenuItem(
+                                            text = "HOME",
+                                            selected = currentRoute == NavRoutes.Home.route
+                                        ) {
                                             navController.navigate(NavRoutes.Home.route)
                                         }
-                                        MenuItem(text = "ABOUT", selected = currentRoute == NavRoutes.About.route) {
+                                        MenuItem(
+                                            text = "ABOUT",
+                                            selected = currentRoute == NavRoutes.About.route
+                                        ) {
                                             navController.navigate(NavRoutes.About.route)
                                         }
                                     }
